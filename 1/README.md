@@ -80,14 +80,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 # Wait a few seconds and check if the pods are running.
 kubectl get pods -n argocd
 
-# Port forward, so we can access the argocd server, then open another terminal
-kubectl port-forward svc/argocd-server -n argocd 8080:443
 
-# Get the argocd admin password, and copy it
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-
-# Login. Open your browser and go to, then login with the password you copied, the username is admin.
-http://localhost:8080
 
 ```
 
@@ -160,22 +153,41 @@ kubectl delete -f .
 ```
 
 6. In order to use ArgoCD  we need to create an application, and a repository. We are going to use the same repository, and the same application name. 
-- On the argocd/hello-nginx folder you can find the application.yaml file.
+- In the argocd/hello-nginx folder you can find the application.yaml file. Take your time to read the file, and understand the different parts of the file, change the repository URL, and the path to the k8s directory.
 
 ```bash
-# First push the k8s directory to the repository, you can use your forked repo. Go to your top level directory(tutorials), and push the changes. Don't forget, you need to have a github account already logged in.
+# First push the k8s directory to the repository, you can use your forked repo. Go to your top level directory(tutorials), and push the changes. In How_to folder you can find a guide to configure git.
 
-cd ../../
+# If you are on the deployment folder with this command you'll go to the top diirectory cd ../../../../
 git add .
 git commit -m "Add k8s manifests"
 git push origin main
 ```
 
+- 6.1 Apply the application.yaml file, and check if the application is running.
+
+```bash
+kubectl apply -f 1/k8s/argocd/hello-nginx/application.yaml
+```
 
 
+```bash
+#######################
+##### Open argocd #####
+#######################
 
+# Port forward, so we can access the argocd server, then open another terminal
+kubectl port-forward svc/argocd-server -n argocd 8080:443
 
+# Get the argocd admin password, and copy it
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
+# Login. Open your browser and go to, then login with the password you copied, the username is admin.
+http://localhost:8080
+```
+
+# What is an application in ArgoCD?
+An argocd application is the bootstrap of our deployment with it we declare a desired state for a set of Kubernetes resources, like deployments, services, configmaps, etc. We can also set the source of the manifests, and the sync policy.
 
 
 # What next?
