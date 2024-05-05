@@ -143,7 +143,7 @@ kubectl get pods
 # Port forward, so we can access the service, then open another terminal
 kubectl port-forward svc/hello-world  8091:8090
 
-# Check if the service is running, open your browser and go to http://localhost:8091
+# To check if the service is running, open your browser and go to http://localhost:8091
 ```
 
 - 5.1 If everything is fine, you can delete the resources.
@@ -164,13 +164,14 @@ git commit -m "Add k8s manifests"
 git push origin main
 ```
 
-- 6.1 Apply the application.yaml file, and check if the application is running.
+- 6.1 Apply the application.yaml file, and check if the application is running. 
+- Here ArgoCD is going to create the resources, goes to our repo, take the manifests and deploy it on our cluster for us, then we can see the resources in the argocd UI.
 
 ```bash
 kubectl apply -f 1/k8s/argocd/hello-nginx/application.yaml
 ```
 
-
+- 6.2 Open argocd, and check if the application is running.
 ```bash
 #######################
 ##### Open argocd #####
@@ -186,11 +187,43 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 http://localhost:8080
 ```
 
+```bash
+# Port forward, so we can access the service, then open another terminal
+kubectl port-forward svc/hello-world  8091:8090
+
+# To check if the service is running, open your browser and go to http://localhost:8091
+```
+
+
+## If everything is fine, you can delete the resources. You can do it with only one command.
+
+```bash
+# Uninstall k3s
+sudo /usr/local/bin/k3s-uninstall.sh
+``` 
+
+### Later we will see how to automate some of the processes so that we can deploy a new version of our application with just a tag in github.
+### The goal of these tutorials is to learn how to automate processes in the devops environment.
+- Remember that the best way to learn is by doing, so I recommend that you try to do this tutorial on your own, and if you have any questions, you can ask me.
+
+## Questions
+# What is a pod in kubernetes?
+A pod is the smallest deployable unit in Kubernetes. A Pod represents a single instance of a running process in your cluster. Pods contain one or more containers, such as Docker containers. When a pod runs multiple containers, the containers are managed as a single entity and share the pod's resources.
+- Reference: https://kubernetes.io/docs/concepts/workloads/pods/
+
+
 # What is an application in ArgoCD?
-An argocd application is the bootstrap of our deployment with it we declare a desired state for a set of Kubernetes resources, like deployments, services, configmaps, etc. We can also set the source of the manifests, and the sync policy.
+An argocd application is the bootstrap of our deployment, with it we declare a desired state for a set of Kubernetes resources, like deployments, services, configmaps, etc. We can also set the source of the manifests, and the sync policy.
+- Reference: https://argoproj.github.io/argo-cd/operator-manual/application_definitions/
 
 
-# What next?
+# Suggestions
 - For a better understanding of the different parts that are part of a Kubernetes cluster, I recommend reading this part of the official documentation. 
   - English https://kubernetes.io/docs/concepts/overview/working-with-objects/
   -  Spanish https://kubernetes.io/es/docs/concepts/overview/working-with-objects/
+
+
+## Summary
+We have seen how to deploy an application to a kubernetes cluster with gitops, and ArgoCD. We have used docker, kompose, kubernetes and argocd. We have also seen how to use kubectl, and how to use the port forward command to access a service.
+
+
