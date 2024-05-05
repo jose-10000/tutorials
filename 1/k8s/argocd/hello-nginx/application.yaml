@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-world
+  namespace: argocd # The namespace where ArgoCD is installed
+spec:
+  destination:
+    namespace: default # The namespace where the application will be deployed
+    server: 'https://kubernetes.default.svc' # The Kubernetes API server
+  project: default
+  source:
+    path: tutorials/1/k8s/deployments/hello-nginx # The path to the application manifests
+    repoURL: 'https://github.com/jose-10000/tutorials.git' # The repository URL, change this to your repository
+    targetRevision: HEAD # The branch or commit to deploy

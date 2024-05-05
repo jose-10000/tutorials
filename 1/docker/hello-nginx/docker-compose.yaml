@@ -1,0 +1,7 @@
+# This is the docker-compose file for the hello-nginx service
+services:
+  hello-world:
+    container_name: hello-world
+    image: jose10000/hello-world:v1.1
+    ports:
+      - "8090:80"
