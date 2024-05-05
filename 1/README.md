@@ -163,7 +163,9 @@ kubectl delete -f .
 - On the argocd/hello-nginx folder you can find the application.yaml file.
 
 ```bash
-# First push the k8s directory to the repository, you can use your forked repo. Go to your top level directory(tutorials), and push the changes.
+# First push the k8s directory to the repository, you can use your forked repo. Go to your top level directory(tutorials), and push the changes. Don't forget, you need to have a github account already logged in.
+
+cd ../../
 git add .
 git commit -m "Add k8s manifests"
 git push origin main
