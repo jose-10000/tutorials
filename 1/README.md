@@ -15,6 +15,7 @@ Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes.
 - Knowledge about docker, kubernetes and git.
 - Install docker, kubectl, kompose and argocd.
 - A linux machine, or a virtual machine with a linux distribution, wsl is also an option, but I recommend using a virtual machine.
+- If you want to use a VM, make it with at least 15GB of disk, 2 cores, and 4GB of RAM.
 
 ```bash
 
@@ -80,6 +81,9 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 # Wait a few seconds and check if the pods are running.
 kubectl get pods -n argocd
 
+# Get the argocd admin password, and copy it 
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
 
 
 ```
@@ -89,7 +93,7 @@ kubectl get pods -n argocd
 
 ```bash
 git clone https://github.com/jose-10000/tutorials.git
-cd tutorials/1
+
 ```
 
 2. Change directory to the app directory, and build the docker image.
@@ -168,7 +172,8 @@ git push origin main
 - Here ArgoCD is going to create the resources, goes to our repo, take the manifests and deploy it on our cluster for us, then we can see the resources in the argocd UI.
 
 ```bash
-kubectl apply -f 1/k8s/argocd/hello-nginx/application.yaml
+cd ../../argocd/hello-nginx/
+kubectl apply -f application.yaml
 ```
 
 - 6.2 Open argocd, and check if the application is running.
